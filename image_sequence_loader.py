@@ -42,7 +42,7 @@ class ImageSequenceLoader:
             filename = self.image_files[index]
             try:
                 with Image.open(image_path) as image:
-                    if alpha == True:
+                    if alpha == False:
                         image = image.convert("RGB")
                     output_image = np.array(image).astype(np.float32) / 255.0
                     output_image = torch.from_numpy(output_image).unsqueeze(0)

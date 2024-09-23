@@ -14,6 +14,7 @@ class ImageSequenceLoader:
                 "loop_or_reset": ("BOOLEAN", {"default": False}),
                 "reset_on_error": ("BOOLEAN", {"default": False}),
                 "exclude_loaded_on_reset": ("BOOLEAN", {"default": False}),
+                "output_alpha": ("BOOLEAN", {"default": False}),
                 "include_extension": ("BOOLEAN", {"default": False}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             }
@@ -35,13 +36,14 @@ class ImageSequenceLoader:
             if os.path.isfile(os.path.join(folder_path, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))
         ])
 
-    def _load_image(self, folder_path, index):
+    def _load_image(self, folder_path, index, alpha):
         if 0 <= index < len(self.image_files):
             image_path = os.path.join(folder_path, self.image_files[index])
             filename = self.image_files[index]
             try:
                 with Image.open(image_path) as image:
-                    image = image.convert("RGB")
+                    if alpha == True:
+                        image = image.convert("RGB")
                     output_image = np.array(image).astype(np.float32) / 255.0
                     output_image = torch.from_numpy(output_image).unsqueeze(0)
                 return output_image, filename
@@ -51,7 +53,7 @@ class ImageSequenceLoader:
         else:
             return None, None
 
-    def run(self, folder_path, reset, reset_on_error, seed, loop_or_reset, include_extension, exclude_loaded_on_reset):
+    def run(self, folder_path, reset, reset_on_error, seed, loop_or_reset, include_extension, exclude_loaded_on_reset, output_alpha):
         random.seed(seed)
 
         if reset or not self.image_files or folder_path != self.prev_folder_path:
@@ -63,7 +65,7 @@ class ImageSequenceLoader:
             return (None, self.current_index, seed, None)
 
         while self.current_index < len(self.image_files):
-            output_image, filename = self._load_image(folder_path, self.current_index)
+            output_image, filename = self._load_image(folder_path, self.current_index, output_alpha)
             if output_image is not None:
                 break
             elif not reset_on_error:
@@ -82,7 +84,7 @@ class ImageSequenceLoader:
             else:
                 self.current_index = 0
 
-            output_image, filename = self._load_image(folder_path, self.current_index)
+            output_image, filename = self._load_image(folder_path, self.current_index, output_alpha)
 
         if not include_extension:
             filename = os.path.splitext(filename)[0]

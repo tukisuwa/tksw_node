@@ -92,7 +92,7 @@ class ImageSequenceLoader:
 
         self.current_index += 1
 
-        return (output_image, self.current_index - 1, seed, filename)
+        return (output_image, self.current_index + start_index - 1, seed, filename)
 
 NODE_CLASS_MAPPINGS = {
     "ImageSequenceLoader": ImageSequenceLoader

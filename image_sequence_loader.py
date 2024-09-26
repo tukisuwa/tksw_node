@@ -16,7 +16,9 @@ class ImageSequenceLoader:
                 "exclude_loaded_on_reset": ("BOOLEAN", {"default": False}),
                 "output_alpha": ("BOOLEAN", {"default": False}),
                 "include_extension": ("BOOLEAN", {"default": False}),
+                "use_manual_index": ("BOOLEAN", {"default": False}),
                 "start_index": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
+                "manual_index": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
             }
         }
@@ -54,7 +56,7 @@ class ImageSequenceLoader:
         else:
             return None, None
 
-    def run(self, folder_path, reset, reset_on_error, seed, loop_or_reset, include_extension, exclude_loaded_on_reset, output_alpha, start_index):
+    def run(self, folder_path, reset, reset_on_error, seed, loop_or_reset, include_extension, exclude_loaded_on_reset, output_alpha, start_index, use_manual_index, manual_index):
         random.seed(seed)
 
         if reset or not self.image_files or folder_path != self.prev_folder_path:
@@ -66,7 +68,10 @@ class ImageSequenceLoader:
             return (None, self.current_index, seed, None)
 
         while self.current_index < len(self.image_files):
-            output_image, filename = self._load_image(folder_path, self.current_index+start_index, output_alpha)
+            if use_manual_index == False :
+                output_image, filename = self._load_image(folder_path, self.current_index + start_index, output_alpha)
+            else :
+                output_image, filename = self._load_image(folder_path, manual_index + start_index, output_alpha)
             if output_image is not None:
                 break
             elif not reset_on_error:
@@ -91,8 +96,13 @@ class ImageSequenceLoader:
             filename = os.path.splitext(filename)[0]
 
         self.current_index += 1
+        
+        if use_manual_index == False :
+            return_index = self.current_index + start_index - 1
+        else :
+            return_index = manual_index + start_index
 
-        return (output_image, self.current_index + start_index - 1, seed, filename)
+        return (output_image, return_index, seed, filename)
 
 NODE_CLASS_MAPPINGS = {
     "ImageSequenceLoader": ImageSequenceLoader

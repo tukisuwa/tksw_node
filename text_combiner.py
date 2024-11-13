@@ -2,16 +2,16 @@ import re
 
 class TextCombiner:
     def __init__(self):
-        self.text_history = []
+        self.text_log = []
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
                 "separator": ("STRING", {"default": ","}),
-                "remember_history": ("BOOLEAN", {"default": True}),
-                "max_history": ("INT", {"default": 10, "min": 0, "max": 1000}),
-                "allow_duplicate_history": ("BOOLEAN", {"default": True}),
+                "remember_log": ("BOOLEAN", {"default": True}),
+                "max_log": ("INT", {"default": 10, "min": 0, "max": 1000}),
+                "allow_duplicate_log": ("BOOLEAN", {"default": True}),
                 "use_regex": ("BOOLEAN", {"default": False}),
             },
             "optional": {
@@ -29,7 +29,7 @@ class TextCombiner:
     FUNCTION = "process_text"
     ALWAYS_EXECUTE = True
 
-    def process_text(self, text_1="", text_2="", text_3="", text_4="", separator=",", remember_history=True, max_history=10, allow_duplicate_history=False, remove_text="", use_regex=False):
+    def process_text(self, text_1="", text_2="", text_3="", text_4="", separator=",", remember_log=True, max_log=10, allow_duplicate_log=False, remove_text="", use_regex=False):
         texts = [text_1, text_2, text_3, text_4]
 
         compiled_patterns = []
@@ -68,21 +68,21 @@ class TextCombiner:
         combined_text = combined_text.strip(separator)
 
 
-        if remember_history:
-            if allow_duplicate_history or combined_text not in self.text_history:
-                self.text_history.append(combined_text)
-                if len(self.text_history) > max_history:
-                    self.text_history.pop(0)
+        if remember_log:
+            if allow_duplicate_log or combined_text not in self.text_log:
+                self.text_log.append(combined_text)
+                if len(self.text_log) > max_log:
+                    self.text_log.pop(0)
 
             recent_texts = [""] * 4
-            for i in range(min(4, len(self.text_history))):
-                recent_texts[i] = self.text_history[-(i + 1)]
+            for i in range(min(4, len(self.text_log))):
+                recent_texts[i] = self.text_log[-(i + 1)]
 
             oldest_text = ""
-            if self.text_history:
-                oldest_text = self.text_history[0]
+            if self.text_log:
+                oldest_text = self.text_log[0]
 
-            return (combined_text, list(self.text_history), *recent_texts, oldest_text)
+            return (combined_text, list(self.text_log), *recent_texts, oldest_text)
 
         else:
             return (combined_text, [], *[""] * 4, "")

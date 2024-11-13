@@ -61,10 +61,9 @@ class TextCombiner:
 
         combined_text = separator.join([text for text in cleaned_texts if text])
 
-        while separator * 2 in combined_text:
-            combined_text = combined_text.replace(separator * 2, separator)
-        combined_text = combined_text.replace(separator + " ", separator)
-        combined_text = combined_text.replace(" " + separator, separator)
+        pattern = r"(?<!\s)\s*[{separator}]{{2,}}\s*(?!\s)".format(separator=re.escape(separator))
+        while re.search(pattern, combined_text):
+            combined_text = re.sub(pattern, separator, combined_text)
         combined_text = combined_text.strip(separator)
 
 

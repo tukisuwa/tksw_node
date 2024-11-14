@@ -27,7 +27,7 @@ class TextCombiner:
     RETURN_NAMES = ("text", "text_log", "recent_text_1", "recent_text_2", "recent_text_3", "recent_text_4", "oldest_text")
     OUTPUT_NODE = True
     FUNCTION = "process_text"
-    ALWAYS_EXECUTE = True
+    CATEGORY = "tksw_node"
 
     def process_text(self, text_1="", text_2="", text_3="", text_4="", separator=",", remember_log=True, max_log=10, allow_duplicate_log=False, remove_text="", use_regex=False):
         texts = [text_1, text_2, text_3, text_4]

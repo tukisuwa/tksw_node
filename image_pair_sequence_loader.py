@@ -26,7 +26,7 @@ class ImagePairSequenceLoader:
     RETURN_TYPES = ("IMAGE", "IMAGE", "INT", "STRING")
     RETURN_NAMES = ("image_A", "image_B", "index", "filename")
     FUNCTION = "run"
-    CATEGORY = "image"
+    CATEGORY = "tksw_node"
 
     def __init__(self):
         self.current_index = 0

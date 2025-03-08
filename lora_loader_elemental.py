@@ -57,14 +57,14 @@ class LoraLoaderElemental:
     def _save_processed_lora(self, lora, save_name):
         if not save_name.endswith(".safetensors"):
           save_name += ".safetensors"
-        lora_path = os.path.join(folder_paths.get_folder_paths("loras")[0], save_name)  # ここを修正
+        lora_path = os.path.join(folder_paths.get_folder_paths("loras")[0], save_name) 
      
         metadata = lora.pop("metadata", {}) if isinstance(lora, dict) else {}
         try:
           save_file(lora, lora_path, metadata)
-          print(f"Processed LoRA saved to: {lora_path}") #パスも表示するように変更
+          print(f"Processed LoRA saved to: {lora_path}") 
         except Exception as e:
-          print(f"Error saving processed LoRA: {e}") #エラー詳細も表示
+          print(f"Error saving processed LoRA: {e}")
         if metadata:
           lora["metadata"] = metadata
 
@@ -117,12 +117,11 @@ class LoraLoaderElemental:
                         target_prefixes.add(prefix)
                         break
 
-            # 強度を適用する部分を修正
             for key in list(lora.keys()):
-                for strength_key, strength in lora_strengths.items():  # lora_strengthsを直接使う
+                for strength_key, strength in lora_strengths.items(): 
                     if key.startswith(strength_key) and key.endswith((".lora_down.weight", ".lora_up.weight")):
                         lora[key] *= math.sqrt(strength)
-                        break  # 一致したら内側のループを抜ける
+                        break 
 
 
             if remove_unspecified_keys:

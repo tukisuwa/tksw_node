@@ -25,6 +25,7 @@ class LoraLoaderElemental:
                 "save_lora": ("BOOLEAN", {"default": False}),
                 "save_name": ("STRING", {"default": "processed_lora"}),
                 "remove_unspecified_keys": ("BOOLEAN", {"default": False}),
+                "remove_zero_strength_keys": ("BOOLEAN", {"default": False}),  
                 "regex_mode": ("BOOLEAN", {"default": False}),
             }
         }
@@ -41,7 +42,7 @@ class LoraLoaderElemental:
     CATEGORY = "tksw_node"
 
     def _parse_strength_string(self, strength_string):
-        lora_strengths = {}  # key: (strength, index)
+        lora_strengths = {}  
         with io.StringIO(strength_string) as f:
             for index, line in enumerate(f):
                 line = line.strip()
@@ -52,7 +53,7 @@ class LoraLoaderElemental:
                         value = float(value.strip())
                         lora_strengths[key] = (value, index)
                     except ValueError:
-                        print(f"Invalid line in strength string: {line}")
+                        print(f"Invalid line in strength string: ")
         return lora_strengths
 
     def _save_processed_lora(self, lora, save_name):
@@ -63,9 +64,9 @@ class LoraLoaderElemental:
         metadata = lora.pop("metadata", {}) if isinstance(lora, dict) else {}
         try:
             save_file(lora, lora_path, metadata)
-            print(f"Processed LoRA saved to: {lora_path}")
+            print(f"Processed LoRA saved to: {lora_path}") 
         except Exception as e:
-            print(f"Error saving processed LoRA: {e}")
+            print(f"Error saving processed LoRA: {e}")  
         if metadata:
             lora["metadata"] = metadata
 
@@ -77,8 +78,8 @@ class LoraLoaderElemental:
         return "\n".join(prefixes)
 
     def load_lora(self, lora_name, strength_model, strength_clip, model=None, clip=None,
-                  lora_strength_string="", save_lora=False, save_name="processed_lora",
-                  remove_unspecified_keys=False, regex_mode=False):
+                 lora_strength_string="", save_lora=False, save_name="processed_lora",
+                 remove_unspecified_keys=False, remove_zero_strength_keys=False, regex_mode=False): 
 
         lora_path = folder_paths.get_full_path_or_raise("loras", lora_name)
 
@@ -91,7 +92,7 @@ class LoraLoaderElemental:
                     lora_metadata = f.metadata()
                 lora = comfy.utils.load_torch_file(lora_path, safe_load=True)
             except Exception as e:
-                print(f"Error reading LoRA metadata or loading: {e}")
+                print(f"Error reading LoRA metadata or loading: {e}") 
                 lora_metadata = {}
                 lora = {}
             lora_keys_string = self._get_lora_keys_string(lora)
@@ -103,7 +104,7 @@ class LoraLoaderElemental:
             lora = comfy.utils.load_torch_file(lora_path, safe_load=True)
 
         except Exception as e:
-            print(f"Error loading LoRA file: {e}")
+            print(f"Error loading LoRA file: {e}") 
             return (model, clip, None, None, "")
 
         lora_strengths = {}
@@ -116,7 +117,7 @@ class LoraLoaderElemental:
                 extended_lora[key] = {"value": value}
             elif key.endswith((".lora_down.weight", ".lora_up.weight")):
                 extended_lora[key] = {"strength": None, "specified": False}
-            else:  
+            else:
                 extended_lora[key] = {"strength": None, "specified": False}
 
         for strength_key, (strength, index) in lora_strengths.items():
@@ -142,12 +143,16 @@ class LoraLoaderElemental:
 
             if key.endswith((".lora_down.weight", ".lora_up.weight")):
                 if data["specified"]:
-                    new_lora[key] = lora[key] * (data["strength"] ** 0.5)
+                    if remove_zero_strength_keys and data["strength"] == 0: 
+                        continue
+                    new_lora[key] = lora[key] * data["strength"]
+
                 elif not remove_unspecified_keys:
                     new_lora[key] = lora[key]
             else:  
                 if not remove_unspecified_keys:
-                    new_lora[key] = lora[key]  
+                    new_lora[key] = lora[key]
+
 
         model_lora, clip_lora = comfy.sd.load_lora_for_models(model, clip, new_lora, strength_model, strength_clip)
         lora_metadata_string = json.dumps(lora_metadata, indent=4)

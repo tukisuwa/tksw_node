@@ -40,11 +40,11 @@ class ImagePairSequenceLoader:
     def _load_image_files(self, folder_path_A, folder_path_B, match_extension):
         self.image_files_A = sorted([
             f for f in os.listdir(folder_path_A)
-            if os.path.isfile(os.path.join(folder_path_A, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))
+            if os.path.isfile(os.path.join(folder_path_A, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.webp'))
         ])
         self.image_files_B = sorted([
             f for f in os.listdir(folder_path_B)
-            if os.path.isfile(os.path.join(folder_path_B, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))
+            if os.path.isfile(os.path.join(folder_path_B, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.webp'))
         ])
 
         if match_extension:

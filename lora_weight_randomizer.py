@@ -3,7 +3,7 @@ from nodes import LoraLoader
 import random
 import torch
 
-LORA_COUNT = 8
+LORA_COUNT = 20
 
 class LoraWeightRandomizer:
     def __init__(self):
@@ -32,7 +32,7 @@ class LoraWeightRandomizer:
                 selected_loras.append((lora_name, i))
 
         if not selected_loras:
-            return (model, clip, "")  # 何も選択されていない場合は空文字列を返す
+            return (model, clip, "") 
 
         torch.manual_seed(seed)
         random.seed(seed)
@@ -71,7 +71,6 @@ class LoraWeightRandomizer:
             reordered_strengths[original_index] = strengths[i]
         strengths = reordered_strengths
 
-        # 出力テキストの作成
         output_text = f"LoraWeightRandomizer Settings:\n"
         output_text += f"  Total Strength: {total_strength:.2f}\n"
         output_text += f"  Max Single Strength: {max_single_strength:.2f}\n"
@@ -87,8 +86,7 @@ class LoraWeightRandomizer:
         return (model, clip, output_text)
 
 
-    RETURN_TYPES = ("MODEL", "CLIP", "STRING") # STRINGを追加
-    # STRINGの出力時の設定
+    RETURN_TYPES = ("MODEL", "CLIP", "STRING")
     RETURN_NAMES = ("MODEL", "CLIP", "settings")
     FUNCTION = "apply"
     CATEGORY = "tksw_node"

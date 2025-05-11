@@ -28,13 +28,12 @@ class TextProcessor:
         if not input_text:
           return ""
     
-        # segment_separator が有効な値かどうかをチェック
-        if segment_separator.strip() == "":  # 空白文字のみの場合はセパレータなしとみなす
+        if segment_separator.strip() == "":  
           segments = [input_text]
         else:
           segments = input_text.split(segment_separator)
     
-        print(f"Segments: {segments}") # セグメントの確認
+        print(f"Segments: {segments}")
     
         processed_segments = []
     
@@ -55,19 +54,17 @@ class TextProcessor:
     
         print(f"Processed Segments: {processed_segments}") 
     
-        # segment_separator が有効な値かどうかをチェック
-        if segment_separator.strip() == "": # 空白文字のみの場合はセパレータなしとみなす
+        if segment_separator.strip() == "": 
           processed_text = "".join(processed_segments)
         else:
           processed_text = segment_separator.join(processed_segments)
     
-        processed_text = re.sub(r" +", " ", processed_text)   # 連続した空白を1つの空白に置換
-        processed_text = re.sub(r"\s*,\s*", ",", processed_text) # カンマ前後の0個以上のスペースを","に置換
-        processed_text = re.sub(r",+", ",", processed_text)  # 連続したカンマを1つのカンマに置換
-        processed_text = re.sub(r"^,|,$", "", processed_text) # 先頭と末尾のカンマを削除
-        processed_text = re.sub(r",(?=[^\s])", ", ", processed_text) # カンマの後にスペースがない場合のみスペースを追加
-        processed_text = processed_text.strip()             # 前後の空白を削除
-       
+        processed_text = re.sub(r" +", " ", processed_text)  
+        processed_text = re.sub(r"\s*,\s*", ",", processed_text) 
+        processed_text = re.sub(r",+", ",", processed_text) 
+        processed_text = re.sub(r"^,|,$", "", processed_text)
+        processed_text = re.sub(r",(?=[^\s])", ", ", processed_text) 
+        processed_text = processed_text.strip()
         
         print(f"Processed Text: {processed_text}") 
         return (processed_text,)
@@ -100,8 +97,8 @@ class TextProcessor:
         replace_lines = [line.strip() for line in replace_specs.splitlines() if line.strip()]
         compiled_replace_specs = []
         for line in replace_lines:
-            parts = [part.strip() for part in line.split(",")]  # 空文字列を保持するために条件を削除
-            if parts:  # partsが空リストでないことを確認
+            parts = [part.strip() for part in line.split(",")] 
+            if parts: 
                 try:
                     compiled_replace_specs.append((parts[0], [re.compile(p) for p in parts[1:]]))
                 except re.error as e:

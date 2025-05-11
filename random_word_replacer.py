@@ -31,7 +31,6 @@ class RandomWordReplacer:
 
         word_groups = []
 
-        # 1. フォルダ処理 (replace_specs_folder)
         if replace_specs_folder:
             try:
                 for filename in os.listdir(replace_specs_folder):
@@ -42,7 +41,6 @@ class RandomWordReplacer:
             except FileNotFoundError:
                 return (f"Error: Folder not found: ", )
 
-        # 2. ファイル処理 (replace_specs_file)
         if replace_specs_file:
             try:
                 with open(replace_specs_file, "r", encoding="utf-8") as f:
@@ -54,7 +52,6 @@ class RandomWordReplacer:
             except FileNotFoundError:
                 return (f"Error: File not found: ", )
 
-        # 3. 複数行文字列処理 (replace_specs)
         if replace_specs:
             for line in replace_specs.splitlines():
                 if line:
@@ -74,7 +71,6 @@ class RandomWordReplacer:
             for i, word in enumerate(group):
                 if word:
                     while word in processed_line:
-                        # グループ内の単語数が1つだけの場合は、同じ単語で置換
                         if len(group) == 1:
                             replacement = word
                         else:

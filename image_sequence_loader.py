@@ -36,7 +36,7 @@ class ImageSequenceLoader:
     def _load_image_files(self, folder_path):
         self.image_files = sorted([
             f for f in os.listdir(folder_path)
-            if os.path.isfile(os.path.join(folder_path, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))
+            if os.path.isfile(os.path.join(folder_path, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.webp'))
         ])
 
     def _load_image(self, folder_path, index, alpha):
@@ -103,11 +103,3 @@ class ImageSequenceLoader:
             return_index = manual_index + start_index
 
         return (output_image, return_index, seed, filename)
-
-NODE_CLASS_MAPPINGS = {
-    "ImageSequenceLoader": ImageSequenceLoader
-}
-
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageSequenceLoader": "Image Sequence Loader"
-}

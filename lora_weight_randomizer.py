@@ -3,7 +3,7 @@ from nodes import LoraLoader
 import random
 import torch
 
-LORA_COUNT = 20
+LORA_COUNT = 8
 
 class LoraWeightRandomizer:
     def __init__(self):

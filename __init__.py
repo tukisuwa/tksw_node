@@ -10,6 +10,7 @@ from .quantized_lora_loader import QuantizedLoraLoader
 from .lora_selector import LoraSelector
 from .text_file_selector import TextFileSelector
 from .Image_text_pair_sequence_loader import ImageTextPairSequenceLoader
+from .custom_cfg_schedule import CustomCFGSchedule
 from .image_storage_nodes import (
     StoreImageByNumber,
     RetrieveImageByNumber,
@@ -17,8 +18,6 @@ from .image_storage_nodes import (
     RetrieveMultipleImagesByNumber
 )
 
-# --- 基本的なノードマッピング定義 ---
-# これらは常に定義される
 NODE_CLASS_MAPPINGS = {
     "ImageSequenceLoader": ImageSequenceLoader,
     "ImagePairSequenceLoader": ImagePairSequenceLoader,
@@ -36,6 +35,7 @@ NODE_CLASS_MAPPINGS = {
     "RetrieveImageByNumber": RetrieveImageByNumber,
     "StoreMultipleImagesByNumber": StoreMultipleImagesByNumber,
     "RetrieveMultipleImagesByNumber": RetrieveMultipleImagesByNumber,
+    "CustomCFGSchedule": CustomCFGSchedule,
 
 }
 
@@ -56,6 +56,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "RetrieveImageByNumber": "Retrieve Image by Number",
     "StoreMultipleImagesByNumber": "Store Multiple Images by Number",
     "RetrieveMultipleImagesByNumber": "Retrieve Multiple Images by Number",
+    "CustomCFGSchedule": "Custom CFG Schedule",
 }
 
 

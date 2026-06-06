@@ -1,10 +1,13 @@
 from .image_sequence_loader import ImageSequenceLoader
 from .image_pair_sequence_loader import ImagePairSequenceLoader
 from .Image_text_pair_sequence_loader import ImageTextPairSequenceLoader
+from .ImageLoaderSeedSync import ImageLoaderSeedSync
 from .text_file_selector import TextFileSelector
 from .text_combiner import TextCombiner
 from .text_processor import TextProcessor
 from .random_word_replacer import RandomWordReplacer
+from .advanced_fast_preview import AdvancedFastPreview, SimpleFastPreview
+from .text_fast_preview import TextFastPreview
 from .lora_loader_elemental import LoraLoaderElemental, LoraLoaderElementalUI
 from .lora_weight_randomizer import LoraWeightRandomizer
 from .lora_mixer_elemental import LoraMixerElemental
@@ -25,12 +28,18 @@ NODE_CLASS_MAPPINGS = {
     "ImageSequenceLoader": ImageSequenceLoader,
     "ImagePairSequenceLoader": ImagePairSequenceLoader,
     "ImageTextPairSequenceLoader": ImageTextPairSequenceLoader,
+    "ImageLoaderSeedSync": ImageLoaderSeedSync,
     "TextFileSelector": TextFileSelector,
 
     # Text processing
     "TextCombiner": TextCombiner,
     "TextProcessor": TextProcessor,
     "RandomWordReplacer": RandomWordReplacer,
+
+    # Preview
+    "SimpleFastPreview": SimpleFastPreview,
+    "AdvancedFastPreview": AdvancedFastPreview,
+    "TextFastPreview": TextFastPreview,
 
     # LoRA
     "LoraLoaderElemental": LoraLoaderElemental,
@@ -55,12 +64,18 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ImageSequenceLoader": "Image Sequence Loader",
     "ImagePairSequenceLoader": "Image Pair Sequence Loader",
     "ImageTextPairSequenceLoader": "Image TextPair SequenceLoader",
+    "ImageLoaderSeedSync": "Image Loader Seed Sync",
     "TextFileSelector": "Text File Selector",
 
     # Text processing
     "TextCombiner": "Text Combiner",
     "TextProcessor": "Text Processor",
     "RandomWordReplacer": "Random Word Replacer",
+
+    # Preview
+    "SimpleFastPreview": "Simple Fast Preview",
+    "AdvancedFastPreview": "Advanced Fast Preview",
+    "TextFastPreview": "Text Fast Preview",
 
     # LoRA
     "LoraLoaderElemental": "LoRA Loader Elemental",

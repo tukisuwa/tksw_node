@@ -225,7 +225,10 @@ class ElementalRuleEditor {
         });
         button.addEventListener("mouseenter", () => button.style.background = "rgba(255,255,255,0.07)");
         button.addEventListener("mouseleave", () => button.style.background = "rgba(0,0,0,0.16)");
-        button.addEventListener("pointerdown", () => button.style.background = "rgba(255,255,255,0.11)");
+        button.addEventListener("pointerdown", (event) => {
+            event.preventDefault();
+            button.style.background = "rgba(255,255,255,0.11)";
+        });
         button.addEventListener("pointerup", () => button.style.background = "rgba(255,255,255,0.07)");
         return button;
     }
@@ -356,7 +359,10 @@ class ElementalRuleEditor {
         this.paintButton(this.snapButton, this.graphSnapMode === "guide", graph);
     }
 
-    rebuild() {
+    rebuild(options = {}) {
+        const preserveScroll = Boolean(options.preserveScroll);
+        const scrollTop = preserveScroll ? this.list.scrollTop : 0;
+        const scrollLeft = preserveScroll ? this.list.scrollLeft : 0;
         this.rows = [];
         this.list.replaceChildren();
         this.applyListLayout();
@@ -373,6 +379,12 @@ class ElementalRuleEditor {
             this.list.appendChild(this.buildRow(index));
         }
         this.scheduleLayout();
+        if (preserveScroll) {
+            requestAnimationFrame(() => {
+                this.list.scrollTop = scrollTop;
+                this.list.scrollLeft = scrollLeft;
+            });
+        }
     }
 
     applyListLayout() {
@@ -1028,13 +1040,13 @@ class ElementalRuleEditor {
     setAllEnabled(value) {
         for (const item of this.state.items) item.enabled = value;
         this.save();
-        this.rebuild();
+        this.rebuild({ preserveScroll: true });
     }
 
     setAllStrengths(value) {
         for (const item of this.state.items) item.strength = value;
         this.save();
-        this.rebuild();
+        this.rebuild({ preserveScroll: true });
     }
 
     applyPreset() {

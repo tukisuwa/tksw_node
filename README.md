@@ -68,4 +68,4 @@ ComfyUI を再起動するとノードが読み込まれます。
 
 ## License
 
-MIT License
+MIT License. See [LICENSE](./LICENSE).

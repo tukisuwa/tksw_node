@@ -71,7 +71,7 @@ class LoraWeightRandomizer:
             reordered_strengths[original_index] = strengths[i]
         strengths = reordered_strengths
 
-        output_text = f"LoraWeightRandomizer Settings:\n"
+        output_text = f"LoRAWeightRandomizer Settings:\n"
         output_text += f"  Total Strength: {total_strength:.2f}\n"
         output_text += f"  Max Single Strength: {max_single_strength:.2f}\n"
         output_text += f"  Randomize Total Strength: {randomize_total_strength}\n"

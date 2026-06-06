@@ -1,61 +1,82 @@
 from .image_sequence_loader import ImageSequenceLoader
 from .image_pair_sequence_loader import ImagePairSequenceLoader
+from .Image_text_pair_sequence_loader import ImageTextPairSequenceLoader
+from .text_file_selector import TextFileSelector
 from .text_combiner import TextCombiner
 from .text_processor import TextProcessor
-from .lora_loader_elemental import LoraLoaderElemental
 from .random_word_replacer import RandomWordReplacer
+from .lora_loader_elemental import LoraLoaderElemental, LoraLoaderElementalUI
 from .lora_weight_randomizer import LoraWeightRandomizer
 from .lora_mixer_elemental import LoraMixerElemental
 from .quantized_lora_loader import QuantizedLoraLoader
 from .lora_selector import LoraSelector
-from .text_file_selector import TextFileSelector
-from .Image_text_pair_sequence_loader import ImageTextPairSequenceLoader
-from .custom_cfg_schedule import CustomCFGSchedule
 from .image_storage_nodes import (
     StoreImageByNumber,
     RetrieveImageByNumber,
     StoreMultipleImagesByNumber,
     RetrieveMultipleImagesByNumber
 )
+from .custom_cfg_schedule import CustomCFGSchedule
+
+WEB_DIRECTORY = "js"
 
 NODE_CLASS_MAPPINGS = {
+    # Data loading
     "ImageSequenceLoader": ImageSequenceLoader,
     "ImagePairSequenceLoader": ImagePairSequenceLoader,
+    "ImageTextPairSequenceLoader": ImageTextPairSequenceLoader,
+    "TextFileSelector": TextFileSelector,
+
+    # Text processing
     "TextCombiner": TextCombiner,
     "TextProcessor": TextProcessor,
-    "LoraLoaderElemental": LoraLoaderElemental,
     "RandomWordReplacer": RandomWordReplacer,
+
+    # LoRA
+    "LoraLoaderElemental": LoraLoaderElemental,
+    "LoraLoaderElementalUI": LoraLoaderElementalUI,
     "LoraWeightRandomizer": LoraWeightRandomizer,
     "LoraMixerElemental": LoraMixerElemental,
     "QuantizedLoraLoader": QuantizedLoraLoader,
     "LoraSelector": LoraSelector,
-    "TextFileSelector": TextFileSelector,
-    "ImageTextPairSequenceLoader": ImageTextPairSequenceLoader,
+
+    # Image utilities
     "StoreImageByNumber": StoreImageByNumber,
     "RetrieveImageByNumber": RetrieveImageByNumber,
     "StoreMultipleImagesByNumber": StoreMultipleImagesByNumber,
     "RetrieveMultipleImagesByNumber": RetrieveMultipleImagesByNumber,
-    "CustomCFGSchedule": CustomCFGSchedule,
 
+    # Sampling
+    "CustomCFGSchedule": CustomCFGSchedule,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    # Data loading
     "ImageSequenceLoader": "Image Sequence Loader",
     "ImagePairSequenceLoader": "Image Pair Sequence Loader",
+    "ImageTextPairSequenceLoader": "Image TextPair SequenceLoader",
+    "TextFileSelector": "Text File Selector",
+
+    # Text processing
     "TextCombiner": "Text Combiner",
     "TextProcessor": "Text Processor",
-    "LoraLoaderElemental": "Lora Loader Elemental",
     "RandomWordReplacer": "Random Word Replacer",
-    "LoraWeightRandomizer": "Lora Weight Randomizer",
-    "LoraMixerElemental": "Lora Mixer Elemental",
-    "QuantizedLoraLoader": "Quantized Lora Loader",
-    "LoraSelector": "Lora Selector",
-    "TextFileSelector": "Text File Selector",
-    "ImageTextPairSequenceLoader": "Image TextPair SequenceLoader",
+
+    # LoRA
+    "LoraLoaderElemental": "LoRA Loader Elemental",
+    "LoraLoaderElementalUI": "LoRA Loader Elemental UI",
+    "LoraWeightRandomizer": "LoRA Weight Randomizer",
+    "LoraMixerElemental": "LoRA Mixer Elemental",
+    "QuantizedLoraLoader": "Quantized LoRA Loader",
+    "LoraSelector": "LoRA Selector",
+
+    # Image utilities
     "StoreImageByNumber": "Store Image by Number",
     "RetrieveImageByNumber": "Retrieve Image by Number",
     "StoreMultipleImagesByNumber": "Store Multiple Images by Number",
     "RetrieveMultipleImagesByNumber": "Retrieve Multiple Images by Number",
+
+    # Sampling
     "CustomCFGSchedule": "Custom CFG Schedule",
 }
 
